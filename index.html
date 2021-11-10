@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div id="bg"></div>
+    <header>
+      <h1>Online Shoping Cart</h1>
+    </header>
+    <div id="srodek">
+      <div id="center"></div>
+      <div id="bok">
+        <img
+          id="dodaj"
+          src="https://img.icons8.com/ios-glyphs/30/000000/add--v1.png"
+        />
+
+        <h4>Edytuj parametry zamówień</h4>
+        <div id="suma"></div>
+        <div id="suma2">
+          0
+        </div>
+
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="64"
+          height="64"
+          fill="currentColor"
+          class="dev"
+          viewBox="0 0 16 16"
+          id="kasuj"
+        >
+          <path
+            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
+          />
+          <path
+            fill-rule="evenodd"
+            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+          />
+        </svg>
+        <h2 class="dev" id="dev2">Usuń wszystkie elementy</h2>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="256"
+          height="256"
+          fill="currentColor"
+          class="bi bi-cart3"
+          viewBox="0 0 16 16"
+          id="tryb"
+        >
+          <path
+            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+          />
+        </svg>
+      </div>
+    </div>
+    <footer>Autor:Mazanek Mikołaj</footer>
+
+    <script src="script.js"></script>
+    <script>
+      let zlicz = window.localStorage.getItem("licz");
+      let licznik = parseInt(zlicz);
+
+      window.onload = function() {
+        let temp = parseInt(0);
+
+        for (let i = 1; i <= licznik; i++) {
+          if (localStorage.getItem(`cena${i}`) === null) {
+            localStorage.setItem(
+              `nazwa${i}`,
+              localStorage.getItem(`nazwa${i + parseInt(1)}`)
+            );
+            localStorage.setItem(
+              `cena${i}`,
+              localStorage.getItem(`cena${i + parseInt(1)}`)
+            );
+            localStorage.setItem(
+              `link${i}`,
+              localStorage.getItem(`link${i + parseInt(1)}`)
+            );
+
+            i = i + parseInt(1);
+            licznik = licznik + parseInt(1);
+          }
+          const div = document.querySelector("#center");
+          const elx = document.createElement("div");
+          elx.setAttribute("id", `view${i}`);
+          elx.style.border = "solid";
+          const s1x = document.createElement("span");
+          const s2x = document.createElement("span");
+          const s3x = document.createElement("a");
+          const headx = document.createElement("h2");
+          const usunx = document.createElement("img");
+          usunx.setAttribute(
+            "src",
+            `https://img.icons8.com/ios-glyphs/30/000000/minus.png`
+          );
+          usunx.setAttribute("id", `delx`);
+          usunx.href = "index.html";
+          usunx.setAttribute("value", `${i}`);
+          usunx.setAttribute("name", `${i}`);
+          usunx.setAttribute("onclick", "refresh()");
+
+          s2x.setAttribute("id", `s2x${i}`);
+          s3x.setAttribute("id", `s3x${i}`);
+          if (usunx.name == licz) {
+            usunx.style.display = "block";
+          } else {
+            usunx.style.display = "none";
+          }
+          headx.setAttribute("id", `headx${i}`);
+          headx.innerHTML = localStorage.getItem(`nazwa${i}`);
+          s2x.innerHTML = localStorage.getItem(`cena${i}`);
+          s3x.innerHTML = localStorage.getItem(`link${i}`);
+          if (s3x != null) {
+            s3x.href = "http://" + localStorage.getItem(`link${i}`) + "/";
+          } else {
+            s3x.innerHTML = "Brak linku";
+          }
+          div.appendChild(elx);
+          elx.appendChild(headx);
+          elx.appendChild(usunx);
+          elx.appendChild(s1x);
+          elx.appendChild(s2x);
+          elx.appendChild(s3x);
+
+          usunx.addEventListener("mouseover", function(e) {
+            let tekst = e.target.name;
+
+            odejmowanie = document.getElementById(`s2x${tekst}`).innerHTML;
+            sumatemp = document.getElementById("suma2").innerHTML;
+            document.getElementById("suma2").innerHTML =
+              parseInt(sumatemp) - parseInt(odejmowanie);
+          });
+
+          usunx.addEventListener("mouseout", function(e) {
+            let tekst = e.target.name;
+
+            dodawanie = document.getElementById(`s2x${tekst}`).innerHTML;
+            sumatemp = document.getElementById("suma2").innerHTML;
+            document.getElementById("suma2").innerHTML =
+              parseInt(sumatemp) + parseInt(dodawanie);
+          });
+
+          usunx.addEventListener("click", function(e) {
+            let tekst = parseInt(e.target.name);
+
+            localStorage.removeItem(`nazwa${tekst}`);
+            localStorage.removeItem(`cena${tekst}`);
+            localStorage.removeItem(`link${tekst}`);
+            localStorage.setItem(`licz`, `${--licz}`);
+
+            elx.parentNode.removeChild(elx);
+            form.parentNode.removeChild(form);
+            daj.style.display = "block";
+            document.reload(true);
+          });
+
+          document.getElementById("suma").innerHTML = localStorage.getItem(
+            `cena${i}`
+          );
+          temp = temp + parseInt(localStorage.getItem(`cena${i}`));
+          document.getElementById("suma2").innerHTML = temp;
+          const glowny = document.getElementById(`view${i}`);
+        }
+      };
+      let czyon = parseInt(1);
+      document.getElementById("tryb").addEventListener("click", function(evt) {
+        if (evt.detail === 3) {
+          if (czyon === 1) {
+            alert("Tryb deweloperski:on");
+            document.getElementById("kasuj").style.display = "block";
+            document.getElementById("dev2").style.display = "block";
+            czyon = czyon - parseInt(1);
+          } else if (czyon === 0) {
+            alert("Tryb deweloperski:off");
+            document.getElementById("kasuj").style.display = "none";
+            document.getElementById("dev2").style.display = "none";
+            czyon = czyon + parseInt(1);
+          }
+        }
+      });
+      function refresh() {
+        document.location.reload(true);
+      }
+    </script>
+  </body>
+</html>
